@@ -1,7 +1,18 @@
 package org.schabi.newpipe.extractor.services.youtube.linkHandler;
 
+import com.grack.nanojson.JsonObject;
+import com.grack.nanojson.JsonParser;
+import com.grack.nanojson.JsonParserException;
+import java.io.IOException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.schabi.newpipe.extractor.NewPipe;
+import org.schabi.newpipe.extractor.downloader.Downloader;
+import org.schabi.newpipe.extractor.downloader.Response;
 import org.schabi.newpipe.extractor.exceptions.FoundAdException;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
+import org.schabi.newpipe.extractor.exceptions.ReCaptchaException;
 import org.schabi.newpipe.extractor.linkhandler.LinkHandlerFactory;
 import org.schabi.newpipe.extractor.utils.Utils;
 
@@ -131,9 +142,27 @@ public class YoutubeStreamLinkHandlerFactory extends LinkHandlerFactory {
                 }
 
                 if (path.startsWith("embed/")) {
-                    String id = path.split("/")[1];
 
-                    return assertIsID(id);
+                    String query = url.getQuery();
+
+                    if (query.contains("index=")) {
+                        Downloader downloader = NewPipe.getDownloader();
+                        try {
+                            Response response = downloader.get(url.toString());
+                            Document document = Jsoup.parse(response.responseBody());
+                            Element link = document.select("link[rel*=\"canonical\"]").first();
+                            String videoUrl = link.attr("href");
+                            String viewQueryValue = Utils.getQueryValue(new URL(videoUrl), "v");
+                            return viewQueryValue;
+                        } catch (IOException | ReCaptchaException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        String id = path.split("/")[1];
+
+                        return assertIsID(id);
+                    }
                 }
 
                 String viewQueryValue = Utils.getQueryValue(url, "v");

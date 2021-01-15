@@ -20,5 +20,4 @@ jobs:
             echo real
           else
             echo mock
-            ./gradlew check --stacktrace -Ddownloader=MOCK
           fi

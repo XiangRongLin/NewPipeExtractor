@@ -1,3 +1,9 @@
+test {
+    if (System.properties.containsKey('downloader')) {
+        systemProperty('downloader', System.getProperty('downloader'))
+    }
+}
+
 dependencies {
     implementation project(':timeago-parser')
 

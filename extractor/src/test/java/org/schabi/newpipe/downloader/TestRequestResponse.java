@@ -19,4 +19,12 @@ final class TestRequestResponse {
     public Response getResponse() {
         return response;
     }
+
+    @Override
+    public String toString() {
+        return "TestRequestResponse{" +
+                "request=" + request +
+                ", response=" + response +
+                '}';
+    }
 }

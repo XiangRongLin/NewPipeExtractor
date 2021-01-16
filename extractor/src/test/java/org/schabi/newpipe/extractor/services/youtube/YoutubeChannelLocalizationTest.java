@@ -25,7 +25,7 @@ import static org.schabi.newpipe.extractor.services.DefaultTests.defaultTestRela
 //@Ignore("Should be ran manually from time to time, as it's too time consuming.")
 public class YoutubeChannelLocalizationTest {
     private static final String RESOURCE_PATH = DownloaderFactory.RESOURCE_PATH + "services/youtube/extractor/channel/";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Test

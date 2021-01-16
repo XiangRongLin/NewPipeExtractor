@@ -2,10 +2,12 @@ package org.schabi.newpipe.extractor.services.youtube;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.schabi.newpipe.downloader.DownloaderTestImpl;
+import org.schabi.newpipe.downloader.DownloaderFactory;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
 import org.schabi.newpipe.extractor.services.youtube.linkHandler.YoutubeChannelLinkHandlerFactory;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -16,12 +18,15 @@ import static org.junit.Assert.assertTrue;
  */
 public class YoutubeChannelLinkHandlerFactoryTest {
 
+    private static final String RESOURCE_PATH = DownloaderFactory.RESOURCE_PATH + "services/youtube/linkhandler/channel/";
+
     private static YoutubeChannelLinkHandlerFactory linkHandler;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws IOException {
         linkHandler = YoutubeChannelLinkHandlerFactory.getInstance();
-        NewPipe.init(DownloaderTestImpl.getInstance());
+                    YoutubeParsingHelper.resetClientVersionAndKey();
+        NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH));
     }
 
     @Test

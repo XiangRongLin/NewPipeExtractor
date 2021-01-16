@@ -3,19 +3,20 @@ package org.schabi.newpipe.extractor.services.youtube.stream;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.schabi.newpipe.downloader.DownloaderTestImpl;
+import org.schabi.newpipe.downloader.DownloaderFactory;
 import org.schabi.newpipe.extractor.MetaInfo;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.exceptions.ContentNotAvailableException;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
 import org.schabi.newpipe.extractor.services.DefaultStreamExtractorTest;
+import org.schabi.newpipe.extractor.services.youtube.YoutubeParsingHelper;
 import org.schabi.newpipe.extractor.stream.Description;
 import org.schabi.newpipe.extractor.stream.StreamExtractor;
 import org.schabi.newpipe.extractor.stream.StreamSegment;
 import org.schabi.newpipe.extractor.stream.StreamType;
 
-import javax.annotation.Nullable;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -24,7 +25,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.schabi.newpipe.extractor.ServiceList.YouTube;
 
 /*
@@ -47,12 +49,14 @@ import static org.schabi.newpipe.extractor.ServiceList.YouTube;
  * along with NewPipe.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class YoutubeStreamExtractorDefaultTest {
+    private static final String RESOURCE_PATH = DownloaderFactory.RESOURCE_PATH + "services/youtube/extractor/stream/";
     static final String BASE_URL = "https://www.youtube.com/watch?v=";
 
     public static class NotAvailable {
         @BeforeClass
-        public static void setUp() {
-            NewPipe.init(DownloaderTestImpl.getInstance());
+        public static void setUp() throws IOException {
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "notAvailable"));
         }
 
         @Test(expected = ContentNotAvailableException.class)
@@ -78,7 +82,8 @@ public class YoutubeStreamExtractorDefaultTest {
 
         @BeforeClass
         public static void setUp() throws Exception {
-            NewPipe.init(DownloaderTestImpl.getInstance());
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "pewdiwpie"));
             extractor = YouTube.getStreamExtractor(URL);
             extractor.fetchPage();
         }
@@ -107,7 +112,6 @@ public class YoutubeStreamExtractorDefaultTest {
         @Override public int expectedStreamSegmentsCount() { return 0; }
     }
 
-    @Ignore("TODO fix")
     public static class DescriptionTestUnboxing extends DefaultStreamExtractorTest {
         private static final String ID = "cV5TjZCJkuA";
         private static final String URL = BASE_URL + ID;
@@ -115,7 +119,8 @@ public class YoutubeStreamExtractorDefaultTest {
 
         @BeforeClass
         public static void setUp() throws Exception {
-            NewPipe.init(DownloaderTestImpl.getInstance());
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "unboxing"));
             extractor = YouTube.getStreamExtractor(URL);
             extractor.fetchPage();
         }
@@ -142,6 +147,13 @@ public class YoutubeStreamExtractorDefaultTest {
         @Nullable @Override public String expectedTextualUploadDate() { return "2018-06-19"; }
         @Override public long expectedLikeCountAtLeast() { return 340100; }
         @Override public long expectedDislikeCountAtLeast() { return 18700; }
+
+        @Override
+        @Test
+        @Ignore("TODO fix")
+        public void testDescription() throws Exception {
+            super.testDescription();
+        }
     }
 
     @Ignore("TODO fix")
@@ -153,7 +165,8 @@ public class YoutubeStreamExtractorDefaultTest {
 
         @BeforeClass
         public static void setUp() throws Exception {
-            NewPipe.init(DownloaderTestImpl.getInstance());
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "ratingsDisabled"));
             extractor = YouTube.getStreamExtractor(URL);
             extractor.fetchPage();
         }
@@ -186,7 +199,8 @@ public class YoutubeStreamExtractorDefaultTest {
 
         @BeforeClass
         public static void setUp() throws Exception {
-            NewPipe.init(DownloaderTestImpl.getInstance());
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "streamSegmentsOstCollection"));
             extractor = YouTube.getStreamExtractor(URL);
             extractor.fetchPage();
         }
@@ -231,7 +245,8 @@ public class YoutubeStreamExtractorDefaultTest {
 
         @BeforeClass
         public static void setUp() throws Exception {
-            NewPipe.init(DownloaderTestImpl.getInstance());
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "streamSegmentsMaiLab"));
             extractor = YouTube.getStreamExtractor(URL);
             extractor.fetchPage();
         }
@@ -259,7 +274,6 @@ public class YoutubeStreamExtractorDefaultTest {
 
         @Override public int expectedStreamSegmentsCount() { return 7; }
         @Test
-        @Ignore("TODO fix")
         public void testStreamSegment() throws Exception {
             final StreamSegment segment = extractor.getStreamSegments().get(1);
             assertEquals(164, segment.getStartTimeSeconds());
@@ -269,7 +283,6 @@ public class YoutubeStreamExtractorDefaultTest {
         }
     }
 
-    @Ignore("TODO fix")
     public static class PublicBroadcasterTest extends DefaultStreamExtractorTest {
         private static final String ID = "q6fgbYWsMgw";
         private static final int TIMESTAMP = 0;
@@ -278,7 +291,8 @@ public class YoutubeStreamExtractorDefaultTest {
 
         @BeforeClass
         public static void setUp() throws Exception {
-            NewPipe.init(DownloaderTestImpl.getInstance());
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "publicBroadcast"));
             extractor = YouTube.getStreamExtractor(URL);
             extractor.fetchPage();
         }
@@ -308,6 +322,20 @@ public class YoutubeStreamExtractorDefaultTest {
                     Collections.singletonList(new URL("https://de.wikipedia.org/wiki/Funk_(Medienangebot)?wprov=yicw1")),
                     Collections.singletonList("Wikipedia (German)")
             ));
+        }
+
+        @Override
+        @Ignore("TODO fix")
+        @Test
+        public void testUploaderName() throws Exception {
+            super.testUploaderName();
+        }
+
+        @Override
+        @Ignore("TODO fix")
+        @Test
+        public void testMetaInfo() throws Exception {
+            super.testMetaInfo();
         }
     }
 

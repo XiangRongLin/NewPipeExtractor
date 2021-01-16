@@ -261,15 +261,12 @@ public class Request {
         return httpMethod.equals(request.httpMethod) &&
                 url.equals(request.url) &&
                 headers.equals(request.headers) &&
-                Arrays.equals(dataToSend, request.dataToSend) &&
                 Objects.equals(localization, request.localization);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(httpMethod, url, headers, localization);
-        result = 31 * result + Arrays.hashCode(dataToSend);
-        return result;
+        return Objects.hash(httpMethod, url, headers, localization);
     }
 
     @Override

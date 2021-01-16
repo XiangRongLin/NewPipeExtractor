@@ -1,9 +1,7 @@
 name: CI
 
 on:
-  schedule:
-      # once per day
-    - cron: 0 0 * * *
+  workflow_dispatch:
   push:
     branches:
       - dev
@@ -31,7 +29,7 @@ jobs:
         # See gradle file for difference between downloaders
       - name: Build and run Tests
         run: |
-          if [[ $GITHUB_EVENT_NAME == 'schedule' ]]; then
+          if [[ $GITHUB_EVENT_NAME == 'workflow_dispatch' ]]; then
             ./gradlew check --stacktrace -Ddownloader=REAL
           else
             ./gradlew check --stacktrace -Ddownloader=MOCK

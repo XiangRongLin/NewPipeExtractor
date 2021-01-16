@@ -1,6 +1,5 @@
 package org.schabi.newpipe.extractor.services.youtube;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,10 +7,12 @@ import java.util.Map;
 import java.util.Set;
 import org.hamcrest.MatcherAssert;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import org.schabi.newpipe.FlakyTestRule;
 import org.schabi.newpipe.downloader.DownloaderFactory;
 import org.schabi.newpipe.extractor.ListExtractor;
 import org.schabi.newpipe.extractor.ListExtractor.InfoItemsPage;
@@ -50,6 +51,9 @@ public class YoutubeMixPlaylistExtractorTest {
     private static YoutubeMixPlaylistExtractor extractor;
 
     public static class Mix {
+
+        @ClassRule
+        public static FlakyTestRule rule = new FlakyTestRule();
 
         @BeforeClass
         public static void setUp() throws Exception {

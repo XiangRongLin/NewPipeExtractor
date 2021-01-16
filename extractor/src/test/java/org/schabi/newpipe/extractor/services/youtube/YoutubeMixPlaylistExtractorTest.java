@@ -73,7 +73,7 @@ public class YoutubeMixPlaylistExtractorTest {
         @Test
         public void getName() throws Exception {
             final String name = extractor.getName();
-            assertThat(name, startsWith("Mix"));
+            assertThat(name, startsWith("im failing"));
             assertThat(name, containsString(VIDEO_TITLE));
         }
 

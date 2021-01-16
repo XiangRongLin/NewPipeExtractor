@@ -47,9 +47,12 @@ class MockDownloader extends Downloader {
     public Response execute(@Nonnull Request request) {
         Response result = mocks.get(request);
         if (result == null) {
+            final StringBuilder urls = new StringBuilder();
+            mocks.forEach((request1, response) -> urls.append(request1.url()).append("\n"));
             throw new NullPointerException("No mock response for request with url '" + request.url()
                     + "' exists in path '" + path + "'.\nPlease make sure to run the tests with " +
-                    "the RecordingDownloader first after changes.");
+                    "the RecordingDownloader first after changes.\n" +
+                    "Mock responses exist for " + urls.toString());
         }
         return result;
     }

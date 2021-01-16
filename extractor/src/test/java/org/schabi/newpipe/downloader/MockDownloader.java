@@ -28,6 +28,9 @@ class MockDownloader extends Downloader {
         this.path = path;
         this.mocks = new HashMap<>();
         File folder = new File(path);
+        if (folder == null) {
+            throw new NullPointerException("Folder with mock files does not exist: " + path);
+        }
         for (File file : folder.listFiles()) {
             if (file.getName().startsWith(RecordingDownloader.FILE_NAME_PREFIX)) {
                 final FileReader reader = new FileReader(file);

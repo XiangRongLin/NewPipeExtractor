@@ -22,7 +22,7 @@ package org.schabi.newpipe.extractor.services.youtube;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.schabi.newpipe.downloader.DownloaderFactory;
+import org.schabi.newpipe.downloader.DownloaderTestImpl;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.kiosk.KioskList;
@@ -40,15 +40,12 @@ import static org.schabi.newpipe.extractor.ServiceList.YouTube;
  */
 public class YoutubeServiceTest {
 
-    private static final String RESOURCE_PATH = DownloaderFactory.RESOURCE_PATH;
-
     static StreamingService service;
     static KioskList kioskList;
 
     @BeforeClass
     public static void setUp() throws Exception {
-        YoutubeParsingHelper.resetClientVersionAndKey();
-        NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "youtube"));
+        NewPipe.init(DownloaderTestImpl.getInstance());
         service = YouTube;
         kioskList = service.getKioskList();
     }

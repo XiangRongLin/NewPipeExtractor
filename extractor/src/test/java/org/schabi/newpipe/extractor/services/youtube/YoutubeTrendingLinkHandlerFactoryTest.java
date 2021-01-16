@@ -22,7 +22,7 @@ package org.schabi.newpipe.extractor.services.youtube;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.schabi.newpipe.downloader.DownloaderFactory;
+import org.schabi.newpipe.downloader.DownloaderTestImpl;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
 import org.schabi.newpipe.extractor.linkhandler.LinkHandlerFactory;
@@ -38,15 +38,12 @@ import static org.schabi.newpipe.extractor.ServiceList.YouTube;
  */
 public class YoutubeTrendingLinkHandlerFactoryTest {
 
-    private static final String RESOURCE_PATH = DownloaderFactory.RESOURCE_PATH + "services/youtube/linkhandler/trending/";
-
     private static LinkHandlerFactory LinkHandlerFactory;
 
     @BeforeClass
     public static void setUp() throws Exception {
         LinkHandlerFactory = YouTube.getKioskList().getListLinkHandlerFactoryByType("Trending");
-        YoutubeParsingHelper.resetClientVersionAndKey();
-        NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + ""));
+        NewPipe.init(DownloaderTestImpl.getInstance());
     }
 
     @Test

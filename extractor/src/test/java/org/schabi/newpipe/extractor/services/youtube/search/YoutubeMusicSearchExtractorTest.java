@@ -75,8 +75,7 @@ public class YoutubeMusicSearchExtractorTest {
 
         @BeforeClass
         public static void setUp() throws Exception {
-            YoutubeParsingHelper.resetClientVersionAndKey();
-            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "albums"));
+            NewPipe.init(DownloaderTestImpl.getInstance());
             extractor = YouTube.getSearchExtractor(QUERY, singletonList(YoutubeSearchQueryHandlerFactory.MUSIC_ALBUMS), "");
             extractor.fetchPage();
         }

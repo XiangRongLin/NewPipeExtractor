@@ -2,16 +2,9 @@ package org.schabi.newpipe.extractor.downloader;
 
 import org.schabi.newpipe.extractor.localization.Localization;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.*;
 
 /**
  * An object that holds request information used when {@link Downloader#execute(Request) executing} a request.
@@ -258,15 +251,14 @@ public class Request {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
-        return httpMethod.equals(request.httpMethod) &&
-                url.equals(request.url) &&
-                headers.equals(request.headers) &&
-                Objects.equals(localization, request.localization);
+        return httpMethod.equals(request.httpMethod) && url.equals(request.url) && headers.equals(request.headers) && Arrays.equals(dataToSend, request.dataToSend) && Objects.equals(localization, request.localization);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(httpMethod, url, headers, localization);
+        int result = Objects.hash(httpMethod, url, headers, localization);
+        result = 31 * result + Arrays.hashCode(dataToSend);
+        return result;
     }
 
     @Override

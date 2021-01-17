@@ -3,6 +3,7 @@ package org.schabi.newpipe.extractor.services.youtube.search;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.schabi.newpipe.downloader.DownloaderFactory;
+import org.schabi.newpipe.downloader.DownloaderTestImpl;
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
@@ -168,8 +169,8 @@ public class YoutubeMusicSearchExtractorTest {
 
         @BeforeClass
         public static void setUp() throws Exception {
-            YoutubeParsingHelper.resetClientVersionAndKey();
-            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "corrected"));
+            // Doesn't work with mocks. Makes request with different `dataToSend` i think
+            NewPipe.init(DownloaderTestImpl.getInstance());
             extractor = YouTube.getSearchExtractor(QUERY, singletonList(YoutubeSearchQueryHandlerFactory.MUSIC_SONGS), "");
             extractor.fetchPage();
         }

@@ -1,18 +1,14 @@
 package org.schabi.newpipe.extractor.services.youtube;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import org.hamcrest.MatcherAssert;
 import org.junit.BeforeClass;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.schabi.newpipe.FlakyTestRule;
+import org.schabi.newpipe.MockOnly;
+import org.schabi.newpipe.MockOnlyRule;
 import org.schabi.newpipe.downloader.DownloaderFactory;
 import org.schabi.newpipe.extractor.ListExtractor;
 import org.schabi.newpipe.extractor.ListExtractor.InfoItemsPage;
@@ -26,6 +22,12 @@ import org.schabi.newpipe.extractor.services.youtube.YoutubeMixPlaylistExtractor
 import org.schabi.newpipe.extractor.services.youtube.YoutubeMixPlaylistExtractorTest.MyMix;
 import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeMixPlaylistExtractor;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.startsWith;
@@ -52,8 +54,8 @@ public class YoutubeMixPlaylistExtractorTest {
 
     public static class Mix {
 
-        @ClassRule
-        public static FlakyTestRule rule = new FlakyTestRule();
+        @Rule
+        public MockOnlyRule rule = new MockOnlyRule();
 
         @BeforeClass
         public static void setUp() throws Exception {
@@ -70,6 +72,7 @@ public class YoutubeMixPlaylistExtractorTest {
             assertEquals(YouTube.getServiceId(), extractor.getServiceId());
         }
 
+        @MockOnly
         @Test
         public void getName() throws Exception {
             final String name = extractor.getName();

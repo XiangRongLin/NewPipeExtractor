@@ -33,7 +33,7 @@ public class MockOnlyRule implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                final boolean hasAnnotation = description.getAnnotation(MockOnly.class) == null;
+                final boolean hasAnnotation = description.getAnnotation(MockOnly.class) != null;
                 final boolean isMockDownloader = downloader == null ||
                         !downloader.equalsIgnoreCase(DownloaderType.REAL.toString());
                 Assume.assumeTrue(

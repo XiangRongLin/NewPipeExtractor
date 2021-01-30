@@ -15,4 +15,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Inherited
 public @interface MockOnly {
+
 }
